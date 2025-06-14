@@ -1,103 +1,538 @@
-import Image from "next/image";
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+import { Geist, Geist_Mono } from 'next/font/google';
+import { motion } from 'framer-motion'; // Add this import
+
+const geistSans = Geist({
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+});
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+});
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const COUNTER_DURATION = 2000; // ms
+
+function useCounter(to: number, duration = COUNTER_DURATION) {
+  const [count, setCount] = useState(0);
+  const raf = useRef<number | null>(null);
+
+  useEffect(() => {
+    let start: number | null = null;
+    function animate(ts: number) {
+      if (!start) start = ts;
+      const progress = Math.min((ts - start) / duration, 1);
+      setCount(Math.floor(progress * to));
+      if (progress < 1) {
+        raf.current = requestAnimationFrame(animate);
+      } else {
+        setCount(to);
+      }
+    }
+    raf.current = requestAnimationFrame(animate);
+    return () => {
+      if (raf.current !== null) {
+        cancelAnimationFrame(raf.current);
+      }
+    };
+  }, [to, duration]);
+
+  return count;
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  // Animated counters
+  const takers = useCounter(400);
+  const percent = useCounter(99);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Smooth scroll for header links
+  const handleScroll = (id: string) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <div
+      className={`${geistSans.className} ${geistMono.className} bg-white min-h-screen`}
+    >
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur shadow-md">
+        <nav className="max-w-5xl mx-auto flex justify-between items-center py-4 px-6">
+          <div className="flex items-center gap-2">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src="/ielts-logo.png"
+              alt="IELTS Institute"
+              width={80}
+              height={80}
+              className="rounded-full"
             />
-            Deploy now
-          </a>
+            <span className="text-xl font-bold text-blue-700 tracking-tight">
+              Lalamusa Institute of IELTS
+            </span>
+          </div>
+          <div className="flex gap-6">
+            <a
+              href="#about"
+              onClick={handleScroll('about')}
+              className="text-red-600 font-semibold hover:text-blue-700 transition-colors"
+            >
+              About Us
+            </a>
+            <a
+              href="#location"
+              onClick={handleScroll('location')}
+              className="text-blue-700 font-semibold hover:text-red-600 transition-colors"
+            >
+              Our Location
+            </a>
+          </div>
+        </nav>
+      </header>
+
+      {/* Banner */}
+      <section
+        className="relative flex items-center justify-center min-h-[70vh] sm:min-h-[90vh] w-full"
+        style={{
+          background:
+            "linear-gradient(120deg,rgba(255,0,64,0.7),rgba(0,128,255,0.7)),url('/ielts-banner.png') center/cover no-repeat",
+        }}
+      >
+        <div className="text-center px-4">
+          <h1 className="text-4xl sm:text-6xl font-extrabold text-white drop-shadow-lg mb-6">
+            Achieve Your <span className="text-blue-300">IELTS</span> Dreams
+          </h1>
+          <p className="text-lg sm:text-2xl text-white font-medium mb-8 drop-shadow">
+            Professional IELTS Training. Proven Success. Bright Future.
+          </p>
           <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#about"
+            onClick={handleScroll('about')}
+            className="inline-block bg-red-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg transition-colors"
           >
-            Read our docs
+            Our Instructors
           </a>
         </div>
+      </section>
+
+      <section
+        id="about"
+        className="py-16 px-4 bg-gradient-to-b from-white to-blue-50"
+      >
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-blue-700 mb-4">
+              Our Programs
+            </h2>
+            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+              Empowering students with professional language training and test
+              preparation for global success.
+            </p>
+          </div>
+
+          {/* Course Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div className="bg-white rounded-2xl shadow-lg p-6 transform hover:scale-105 transition-transform">
+              <div className="h-2 bg-blue-600 rounded-t-2xl -mt-6 -mx-6 mb-4"></div>
+              <h3 className="text-xl font-bold text-blue-700 mb-3">
+                IELTS Preparation
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Comprehensive training for Academic & General modules
+              </p>
+              <ul className="text-sm text-gray-600 space-y-2">
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> All four modules
+                  covered
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Mock tests &
+                  feedback
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Expert guidance
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-lg p-6 transform hover:scale-105 transition-transform">
+              <div className="h-2 bg-red-600 rounded-t-2xl -mt-6 -mx-6 mb-4"></div>
+              <h3 className="text-xl font-bold text-red-600 mb-3">
+                Spoken English
+              </h3>
+              <p className="text-gray-600 mb-4">
+                From basic to advanced fluency
+              </p>
+              <ul className="text-sm text-gray-600 space-y-2">
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Grammar & vocabulary
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Accent refinement
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Interactive sessions
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-lg p-6 transform hover:scale-105 transition-transform">
+              <div className="h-2 bg-blue-600 rounded-t-2xl -mt-6 -mx-6 mb-4"></div>
+              <h3 className="text-xl font-bold text-blue-700 mb-3">
+                Special Programs
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Tailored courses for specific needs
+              </p>
+              <ul className="text-sm text-gray-600 space-y-2">
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Life Skills (A1 &
+                  B1)
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> PTE Preparation
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Summer Camps
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Teaching Approach */}
+          <div className="bg-white rounded-2xl shadow-lg p-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+              <div>
+                <h3 className="text-2xl font-bold text-blue-700 mb-4">
+                  Our Teaching Approach
+                </h3>
+                <p className="text-gray-700 mb-6">
+                  Personalized learning experience with modern methods and
+                  flexible schedules.
+                </p>
+                <a
+                  href="#contact"
+                  onClick={handleScroll('contact')}
+                  className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full transition-colors"
+                >
+                  Learn More
+                </a>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-blue-50 p-4 rounded-xl text-center">
+                  <div className="text-2xl font-bold text-blue-700 mb-1">✓</div>
+                  <p className="text-sm text-gray-700">Personal Attention</p>
+                </div>
+                <div className="bg-blue-50 p-4 rounded-xl text-center">
+                  <div className="text-2xl font-bold text-blue-700 mb-1">✓</div>
+                  <p className="text-sm text-gray-700">Flexible Timing</p>
+                </div>
+                <div className="bg-blue-50 p-4 rounded-xl text-center">
+                  <div className="text-2xl font-bold text-blue-700 mb-1">✓</div>
+                  <p className="text-sm text-gray-700">Modern Methods</p>
+                </div>
+                <div className="bg-blue-50 p-4 rounded-xl text-center">
+                  <div className="text-2xl font-bold text-blue-700 mb-1">✓</div>
+                  <p className="text-sm text-gray-700">Regular Assessment</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="instructors" className="bg-blue-50 py-16 px-4">
+        <h2 className="text-3xl sm:text-4xl font-bold text-center text-blue-700 mb-12">
+          Meet Our Instructors
+        </h2>
+        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-10">
+          {/* Instructor 1 */}
+          <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center">
+            <Image
+              src="/instructor1.jpg"
+              alt="Instructor 1"
+              width={100}
+              height={100}
+              className="rounded-full border-4 border-blue-600 mb-4 object-cover"
+            />
+            <h3 className="text-xl font-bold text-blue-700">Sarah Ahmed</h3>
+            <p className="text-red-600 font-semibold mb-2">
+              Lead IELTS Trainer
+            </p>
+            <p className="text-gray-700">
+              10+ years of experience. Expert in IELTS strategies and student
+              success. Passionate about helping students achieve their goals.
+            </p>
+          </div>
+          {/* Instructor 2 */}
+          <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center">
+            <Image
+              src="/instructor2.jpg"
+              alt="Instructor 2"
+              width={100}
+              height={100}
+              className="rounded-full border-4 border-red-600 mb-4 object-cover"
+            />
+            <h3 className="text-xl font-bold text-red-600">James Lee</h3>
+            <p className="text-blue-700 font-semibold mb-2">
+              IELTS Speaking Specialist
+            </p>
+            <p className="text-gray-700">
+              Native English speaker. Focuses on speaking and confidence. Known
+              for interactive and engaging sessions.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Portfolio Section */}
+      <motion.section
+        ref={sectionRef}
+        variants={staggerContainer}
+        initial="hidden"
+        animate={isVisible ? 'visible' : 'hidden'}
+        className="max-w-5xl mx-auto py-16 px-4 flex flex-col md:flex-row items-center gap-12"
+      >
+        <motion.div
+          variants={fadeInUp}
+          whileHover={{ scale: 1.05 }}
+          className="flex-1 flex justify-center"
+        >
+          <Image
+            src="/9band.jpeg"
+            alt="Successful IELTS Students"
+            width={400}
+            height={300}
+            className="rounded-2xl shadow-lg object-cover w-full max-w-xs md:max-w-md transform transition-all duration-300 hover:shadow-2xl"
+          />
+        </motion.div>
+        <motion.div
+          variants={staggerContainer}
+          className="flex-1 flex flex-col items-center md:items-start gap-8"
+        >
+          <motion.div
+            variants={fadeInUp}
+            whileHover={{ scale: 1.1 }}
+            className="flex flex-col items-center md:items-start"
+          >
+            <motion.span
+              className="text-5xl sm:text-6xl font-extrabold text-red-600"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 200 }}
+            >
+              {takers}+
+            </motion.span>
+            <span className="text-lg font-medium text-gray-700 mt-2">
+              Successful IELTS Takers
+            </span>
+          </motion.div>
+          <motion.div
+            variants={fadeInUp}
+            whileHover={{ scale: 1.1 }}
+            className="flex flex-col items-center md:items-start"
+          >
+            <motion.span
+              className="text-5xl sm:text-6xl font-extrabold text-blue-700"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
+            >
+              {percent}%
+            </motion.span>
+            <span className="text-lg font-medium text-gray-700 mt-2">
+              Achieved 6+ Band Scores
+            </span>
+          </motion.div>
+        </motion.div>
+      </motion.section>
+
+      <main>
+        {/* Footer / Location */}
+        <footer
+          id="location"
+          className="bg-gradient-to-r from-blue-700 to-red-600 text-white py-12 px-4"
+        >
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+              {/* About Institute */}
+              <div>
+                <h4 className="text-xl font-bold mb-4">About Our Institute</h4>
+                <p className="text-white/90 text-sm mb-4">
+                  A premier language learning center in the heart of Lalamusa,
+                  dedicated to empowering individuals with the communication
+                  skills and test preparation they need to succeed globally.
+                </p>
+                <p className="text-white/90 text-sm">
+                  Our mission is to inspire and equip learners with the language
+                  skills, test strategies, and personal confidence they need to
+                  achieve their academic, professional, and personal goals.
+                </p>
+              </div>
+
+              {/* Contact Info */}
+              <div>
+                <h4 className="text-xl font-bold mb-4">Contact Us</h4>
+                <div className="space-y-3 text-white/90">
+                  <p className="flex items-center gap-2">
+                    <svg
+                      className="w-8 h-8"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                    </svg>
+                    Near Masjid Abuzar Ghifaari, Lalamusa, Gujrat, Pakistan
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                      />
+                    </svg>
+                    +92 322 6408499
+                  </p>
+                </div>
+              </div>
+              {/* Social Media */}
+              <div>
+                <h4 className="text-xl font-bold mb-4">Connect with Us</h4>
+                <div className="flex items-center gap-4 mb-4">
+                  <a
+                    href="https://www.facebook.com/share/16iL61rHeE/?mibextid=wwXIfr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-blue-300 transition-colors"
+                    aria-label="Facebook"
+                  >
+                    <svg
+                      width="32"
+                      height="32"
+                      fill="currentColor"
+                      className="inline"
+                    >
+                      <path d="M29 16c0-7.18-5.82-13-13-13S3 8.82 3 16c0 6.48 4.84 11.83 11 12.82V20.5h-3.3v-3h3.3v-2.3c0-3.26 1.94-5.05 4.91-5.05 1.42 0 2.91.25 2.91.25v3.2h-1.64c-1.62 0-2.13 1-2.13 2.03V17.5h3.63l-.58 3H18.8v8.32C24.16 27.83 29 22.48 29 16z" />
+                    </svg>
+                  </a>
+                  <a
+                    href="https://www.tiktok.com/@lalamusainstituteofielts?_t=ZS-8wygZtNz3Em&_r=1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-pink-300 transition-colors"
+                    aria-label="TikTok"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="currentColor"
+                      className="inline"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z" />
+                    </svg>
+                  </a>
+                  <a
+                    href="https://youtube.com/@syednaqvi-g5x?si=PCAucRXzDoziuLaa"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-red-300 transition-colors"
+                    aria-label="YouTube"
+                  >
+                    <svg
+                      width="32"
+                      height="32"
+                      fill="currentColor"
+                      className="inline"
+                    >
+                      <path d="M29.4 8.1c-.3-1.1-1.1-1.9-2.2-2.2C25.2 5.1 16 5.1 16 5.1s-9.2 0-11.2.8c-1.1.3-1.9 1.1-2.2 2.2C1.9 10.1 1.9 16 1.9 16s0 5.9.7 7.9c.3 1.1 1.1 1.9 2.2 2.2 2 .8 11.2.8 11.2.8s9.2 0 11.2-.8c1.1-.3 1.9-1.1 2.2-2.2.7-2 .7-7.9.7-7.9s0-5.9-.7-7.9zM13.1 20.5v-9l7.5 4.5-7.5 4.5z" />
+                    </svg>
+                  </a>
+                </div>
+                <p className="text-white/90">Follow us for updates and tips!</p>
+              </div>
+            </div>
+
+            {/* Map */}
+            <div className="rounded-xl overflow-hidden shadow-lg border-4 border-white mb-8">
+              <iframe
+                title="IELTS Institute Location"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.123456789!2d73.0479!3d33.6844!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38df955555555555%3A0x123456789abcdef!2sIELTS%20Institute!5e0!3m2!1sen!2s!4v1680000000000!5m2!1sen!2s"
+                width="100%"
+                height="300"
+                style={{ border: 0 }}
+                allowFullScreen={true}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+
+            <div className="text-center text-sm opacity-80">
+              &copy; {new Date().getFullYear()} Lalamusa Institute of IELTS. All
+              rights reserved.
+            </div>
+          </div>
+        </footer>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
