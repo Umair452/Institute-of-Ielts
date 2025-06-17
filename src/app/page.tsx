@@ -97,31 +97,31 @@ export default function Home() {
     >
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur shadow-md">
-        <nav className="max-w-5xl mx-auto flex justify-between items-center py-4 px-6">
+        <nav className="max-w-5xl mx-auto flex justify-between items-center py-2 px-4">
           <div className="flex items-center gap-2">
             <Image
               src="/ielts-logo.png"
               alt="IELTS Institute"
-              width={80}
-              height={80}
+              width={50}
+              height={50}
               className="rounded-full"
             />
-            <span className="text-xl font-bold text-blue-700 tracking-tight">
+            <span className="text-lg font-bold text-blue-700 tracking-tight hidden sm:inline">
               Lalamusa Institute of IELTS
             </span>
           </div>
-          <div className="flex gap-6">
+          <div className="flex gap-4">
             <a
               href="#about"
               onClick={handleScroll('about')}
-              className="text-red-600 font-semibold hover:text-blue-700 transition-colors"
+              className="text-red-600 font-semibold hover:text-blue-700 transition-colors text-sm"
             >
               About Us
             </a>
             <a
               href="#location"
               onClick={handleScroll('location')}
-              className="text-blue-700 font-semibold hover:text-red-600 transition-colors"
+              className="text-blue-700 font-semibold hover:text-red-600 transition-colors text-sm"
             >
               Our Location
             </a>
@@ -146,7 +146,7 @@ export default function Home() {
           </p>
           <a
             href="#about"
-            onClick={handleScroll('about')}
+            onClick={handleScroll('instructors')}
             className="inline-block bg-red-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg transition-colors"
           >
             Our Instructors
@@ -288,37 +288,45 @@ export default function Home() {
           {/* Instructor 1 */}
           <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center">
             <Image
-              src="/instructor1.jpg"
+              src="/instructor1.jpeg"
               alt="Instructor 1"
               width={100}
               height={100}
               className="rounded-full border-4 border-blue-600 mb-4 object-cover"
             />
-            <h3 className="text-xl font-bold text-blue-700">Sarah Ahmed</h3>
+            <h3 className="text-xl font-bold text-blue-700">
+              Syed Mubeen Raza
+            </h3>
             <p className="text-red-600 font-semibold mb-2">
               Lead IELTS Trainer
             </p>
             <p className="text-gray-700">
-              10+ years of experience. Expert in IELTS strategies and student
-              success. Passionate about helping students achieve their goals.
+              Syed Mubeen Raza, founder of Lalamusa Institute, has 14+ years of
+              English teaching experience and 5+ years in IELTS and test prep.
+              He has successfully trained 500+ students, helping many achieve
+              Band 7–9 in IELTS through clear, motivational, and student-focused
+              teaching.
             </p>
           </div>
           {/* Instructor 2 */}
           <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center">
             <Image
-              src="/instructor2.jpg"
+              src="/instructor2.jpeg"
               alt="Instructor 2"
               width={100}
               height={100}
               className="rounded-full border-4 border-red-600 mb-4 object-cover"
             />
-            <h3 className="text-xl font-bold text-red-600">James Lee</h3>
+            <h3 className="text-xl font-bold text-red-600">Atika Mubeen</h3>
             <p className="text-blue-700 font-semibold mb-2">
               IELTS Speaking Specialist
             </p>
             <p className="text-gray-700">
-              Native English speaker. Focuses on speaking and confidence. Known
-              for interactive and engaging sessions.
+              Atika Mubeen, co-founder of Lalamusa Institute, has 9+ years of
+              experience in language training, including teaching O Level
+              English and serving as an Instructional Coach at Beaconhouse. She
+              has guided hundreds of students in IELTS, PTE, Spoken English, and
+              more, offering trusted services.
             </p>
           </div>
         </div>
@@ -512,7 +520,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Map */}
+            {/* Map
             <div className="rounded-xl overflow-hidden shadow-lg border-4 border-white mb-8">
               <iframe
                 title="IELTS Institute Location"
@@ -524,7 +532,7 @@ export default function Home() {
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
-            </div>
+            </div> */}
 
             <div className="text-center text-sm opacity-80">
               &copy; {new Date().getFullYear()} Lalamusa Institute of IELTS. All
@@ -533,6 +541,23 @@ export default function Home() {
           </div>
         </footer>
       </main>
+      <a
+        href="https://wa.me/923226408499"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="WhatsApp"
+        className="fixed z-50 bottom-6 right-6 bg-green-500 hover:bg-green-600 rounded-full shadow-lg p-4 flex items-center justify-center transition-colors"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          fill="white"
+          viewBox="0 0 24 24"
+        >
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.447-.52.151-.174.2-.298.3-.497.099-.198.05-.372-.025-.521-.075-.149-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.372-.01-.571-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.1 3.2 5.077 4.363.709.306 1.262.489 1.694.626.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.288.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.617h-.001a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.999-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.455 4.436-9.89 9.893-9.89 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.456-4.438 9.891-9.895 9.891zm8.413-18.306A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.304-1.678a11.876 11.876 0 005.735 1.459h.005c6.554 0 11.889-5.335 11.893-11.892a11.82 11.82 0 00-3.498-8.418z" />
+        </svg>
+      </a>
     </div>
   );
 }
