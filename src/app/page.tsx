@@ -249,13 +249,6 @@ export default function Home() {
                   Personalized learning experience with modern methods and
                   flexible schedules.
                 </p>
-                <a
-                  href="#contact"
-                  onClick={handleScroll('contact')}
-                  className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full transition-colors"
-                >
-                  Learn More
-                </a>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-blue-50 p-4 rounded-xl text-center">
