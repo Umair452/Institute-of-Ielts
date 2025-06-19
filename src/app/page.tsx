@@ -60,7 +60,7 @@ function useCounter(to: number, duration = COUNTER_DURATION) {
 
 export default function Home() {
   // Animated counters
-  const takers = useCounter(400);
+  const takers = useCounter(1100);
   const percent = useCounter(99);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
@@ -291,7 +291,7 @@ export default function Home() {
               Syed Mubeen Raza
             </h3>
             <p className="text-red-600 font-semibold mb-2">
-              Lead IELTS Trainer
+              IELTS Instructor
             </p>
             <p className="text-gray-700">
               Syed Mubeen Raza, founder of Lalamusa Institute, has 14+ years of
@@ -312,7 +312,7 @@ export default function Home() {
             />
             <h3 className="text-xl font-bold text-red-600">Atika Mubeen</h3>
             <p className="text-blue-700 font-semibold mb-2">
-              IELTS Speaking Specialist
+              Lead IELTS Instructor
             </p>
             <p className="text-gray-700">
               Atika Mubeen, co-founder of Lalamusa Institute, has 9+ years of
@@ -333,17 +333,27 @@ export default function Home() {
         animate={isVisible ? 'visible' : 'hidden'}
         className="max-w-5xl mx-auto py-16 px-4 flex flex-col md:flex-row items-center gap-12"
       >
+        <div className="w-full mb-8 md:mb-0">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center md:text-left text-blue-700 mb-6">
+        Success Stories & Results
+          </h2>
+          <p className="text-base sm:text-lg text-gray-700 text-center md:text-left">
+        Our success stories are a testament to our commitment to excellence.
+        Fatima Liaqat, one of our top students, achieved an impressive 9.0 in
+        the IELTS exam, showcasing the effectiveness of our training methods.
+          </p>
+        </div>
         <motion.div
           variants={fadeInUp}
           whileHover={{ scale: 1.05 }}
           className="flex-1 flex justify-center"
         >
           <Image
-            src="/9band.jpeg"
-            alt="Successful IELTS Students"
-            width={400}
-            height={300}
-            className="rounded-2xl shadow-lg object-cover w-full max-w-xs md:max-w-md transform transition-all duration-300 hover:shadow-2xl"
+        src="/9bands.jpg"
+        alt="Successful IELTS Students"
+        width={400}
+        height={300}
+        className="rounded-2xl shadow-lg object-cover w-full max-w-xs md:max-w-md transform transition-all duration-300 hover:shadow-2xl"
           />
         </motion.div>
         <motion.div
@@ -351,38 +361,38 @@ export default function Home() {
           className="flex-1 flex flex-col items-center md:items-start gap-8"
         >
           <motion.div
-            variants={fadeInUp}
-            whileHover={{ scale: 1.1 }}
-            className="flex flex-col items-center md:items-start"
+        variants={fadeInUp}
+        whileHover={{ scale: 1.1 }}
+        className="flex flex-col items-center md:items-start"
           >
-            <motion.span
-              className="text-5xl sm:text-6xl font-extrabold text-red-600"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: 'spring', stiffness: 200 }}
-            >
-              {takers}+
-            </motion.span>
-            <span className="text-lg font-medium text-gray-700 mt-2">
-              Successful IELTS Takers
-            </span>
+        <motion.span
+          className="text-5xl sm:text-6xl font-extrabold text-red-600"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: 'spring', stiffness: 200 }}
+        >
+          {takers}+
+        </motion.span>
+        <span className="text-lg font-medium text-gray-700 mt-2">
+          Successful IELTS Takers
+        </span>
           </motion.div>
           <motion.div
-            variants={fadeInUp}
-            whileHover={{ scale: 1.1 }}
-            className="flex flex-col items-center md:items-start"
+        variants={fadeInUp}
+        whileHover={{ scale: 1.1 }}
+        className="flex flex-col items-center md:items-start"
           >
-            <motion.span
-              className="text-5xl sm:text-6xl font-extrabold text-blue-700"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
-            >
-              {percent}%
-            </motion.span>
-            <span className="text-lg font-medium text-gray-700 mt-2">
-              Achieved 6+ Band Scores
-            </span>
+        <motion.span
+          className="text-5xl sm:text-6xl font-extrabold text-blue-700"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
+        >
+          {percent}%
+        </motion.span>
+        <span className="text-lg font-medium text-gray-700 mt-2">
+          Achieved 6+ Band Scores
+        </span>
           </motion.div>
         </motion.div>
       </motion.section>
