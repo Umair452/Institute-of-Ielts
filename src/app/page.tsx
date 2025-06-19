@@ -348,13 +348,14 @@ export default function Home() {
           whileHover={{ scale: 1.05 }}
           className="flex-1 flex justify-center"
         >
-          <Image
-        src="/9bands.jpg"
-        alt="Successful IELTS Students"
-        width={400}
-        height={300}
-        className="rounded-2xl shadow-lg object-cover w-full max-w-xs md:max-w-md transform transition-all duration-300 hover:shadow-2xl"
-          />
+        <Image
+          src="/9bands.jpg"
+          alt="Successful IELTS Students"
+          width={400}
+          height={300}
+          className="rounded-2xl shadow-lg object-cover w-full max-w-xs md:max-w-md transform transition-all duration-300 hover:shadow-2xl"
+          priority
+        />
         </motion.div>
         <motion.div
           variants={staggerContainer}
