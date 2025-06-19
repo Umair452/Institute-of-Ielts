@@ -349,7 +349,7 @@ export default function Home() {
           className="flex-1 flex justify-center"
         >
         <Image
-          src="/9bands.jpg"
+          src="/instructor1.jpeg"
           alt="Successful IELTS Students"
           width={400}
           height={300}
