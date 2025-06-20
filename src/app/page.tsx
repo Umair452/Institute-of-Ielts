@@ -290,9 +290,7 @@ export default function Home() {
             <h3 className="text-xl font-bold text-blue-700">
               Syed Mubeen Raza
             </h3>
-            <p className="text-red-600 font-semibold mb-2">
-              IELTS Instructor
-            </p>
+            <p className="text-red-600 font-semibold mb-2">IELTS Instructor</p>
             <p className="text-gray-700">
               Syed Mubeen Raza, founder of Lalamusa Institute, has 14+ years of
               English teaching experience and 5+ years in IELTS and test prep.
@@ -331,78 +329,85 @@ export default function Home() {
         variants={staggerContainer}
         initial="hidden"
         animate={isVisible ? 'visible' : 'hidden'}
-        className="max-w-5xl mx-auto py-16 px-4 flex flex-col md:flex-row items-center gap-12"
+        className="max-w-6xl mx-auto py-16 px-4"
       >
-        <div className="w-full mb-8 md:mb-0">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center md:text-left text-blue-700 mb-6">
-        Success Stories & Results
-          </h2>
-          <p className="text-base sm:text-lg text-gray-700 text-center md:text-left">
-        Our success stories are a testament to our commitment to excellence.
-        Fatima Liaqat, one of our top students, achieved an impressive 9.0 in
-        the IELTS exam, showcasing the effectiveness of our training methods.
-          </p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Text Content */}
+          <motion.div
+            variants={fadeInUp}
+            className="order-2 lg:order-1 space-y-6"
+          >
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-blue-700 leading-tight">
+              Success Stories & Results
+            </h2>
+            <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
+              Our success stories are a testament to our commitment to
+              excellence. Fatima Liaqat, one of our top students, achieved an
+              impressive 9.0 in the IELTS exam, showcasing the effectiveness of
+              our training methods.
+            </p>
+
+            {/* Statistics */}
+            <div className="grid grid-cols-2 gap-6 pt-4">
+              <motion.div
+                variants={fadeInUp}
+                whileHover={{ scale: 1.05 }}
+                className="text-center p-4 bg-gradient-to-br from-red-50 to-red-100 rounded-xl border border-red-200"
+              >
+                <motion.span
+                  className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-red-600 block"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: 'spring', stiffness: 200 }}
+                >
+                  {takers}+
+                </motion.span>
+                <span className="text-sm sm:text-base font-medium text-gray-700 mt-2 block">
+                  Successful IELTS Takers
+                </span>
+              </motion.div>
+
+              <motion.div
+                variants={fadeInUp}
+                whileHover={{ scale: 1.05 }}
+                className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-200"
+              >
+                <motion.span
+                  className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-blue-700 block"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
+                >
+                  {percent}%
+                </motion.span>
+                <span className="text-sm sm:text-base font-medium text-gray-700 mt-2 block">
+                  Achieved 6+ Band Scores
+                </span>
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* Image */}
+          <motion.div
+            variants={fadeInUp}
+            whileHover={{ scale: 1.02 }}
+            className="order-1 lg:order-2 flex justify-center"
+          >
+            <div className="relative">
+              <Image
+                src="/9bands.webp"
+                alt="Successful IELTS Students - 9 Band Achievement"
+                width={500}
+                height={400}
+                className="rounded-2xl shadow-2xl object-cover w-full max-w-sm sm:max-w-md lg:max-w-lg transform transition-all duration-300 hover:shadow-3xl"
+                priority
+              />
+              {/* Decorative elements */}
+              <div className="absolute -top-4 -right-4 w-8 h-8 bg-yellow-400 rounded-full opacity-80 animate-pulse"></div>
+              <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-green-400 rounded-full opacity-80 animate-pulse delay-1000"></div>
+            </div>
+          </motion.div>
         </div>
-        <motion.div
-          variants={fadeInUp}
-          whileHover={{ scale: 1.05 }}
-          className="flex-1 flex justify-center"
-        >
-        <Image
-          src="/instructor1.jpeg"
-          alt="Successful IELTS Students"
-          width={400}
-          height={300}
-          className="rounded-2xl shadow-lg object-cover w-full max-w-xs md:max-w-md transform transition-all duration-300 hover:shadow-2xl"
-          priority
-        />
-        <img
-          src="/9bands.jpg"
-          alt="Successful IELTS Students"
-          width={400}
-          height={300}
-          className="rounded-2xl shadow-lg object-cover w-full max-w-xs md:max-w-md transform transition-all duration-300 hover:shadow-2xl"
-        />
-        </motion.div>
-        <motion.div
-          variants={staggerContainer}
-          className="flex-1 flex flex-col items-center md:items-start gap-8"
-        >
-          <motion.div
-        variants={fadeInUp}
-        whileHover={{ scale: 1.1 }}
-        className="flex flex-col items-center md:items-start"
-          >
-        <motion.span
-          className="text-5xl sm:text-6xl font-extrabold text-red-600"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: 'spring', stiffness: 200 }}
-        >
-          {takers}+
-        </motion.span>
-        <span className="text-lg font-medium text-gray-700 mt-2">
-          Successful IELTS Takers
-        </span>
-          </motion.div>
-          <motion.div
-        variants={fadeInUp}
-        whileHover={{ scale: 1.1 }}
-        className="flex flex-col items-center md:items-start"
-          >
-        <motion.span
-          className="text-5xl sm:text-6xl font-extrabold text-blue-700"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
-        >
-          {percent}%
-        </motion.span>
-        <span className="text-lg font-medium text-gray-700 mt-2">
-          Achieved 6+ Band Scores
-        </span>
-          </motion.div>
-        </motion.div>
       </motion.section>
 
       <main>
